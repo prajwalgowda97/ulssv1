@@ -1,23 +1,27 @@
 class ulss_base_sequence extends uvm_sequence#(ulss_tx);
-
-  //factory registration
+  // Factory registration
   `uvm_object_utils(ulss_base_sequence)
-
-  //creating sequence item handle
+  
+  // Transaction handle
   ulss_tx tx;
-
-
-  //constructor
+  
+  // Constructor
   function new(string name="ulss_base_sequence");
-   super.new(name);
+    super.new(name);
   endfunction
-
-  //task body
+  
+  // Build phase
+  function void build_phase(uvm_phase phase);
+    // No super call needed for sequences
+    tx = ulss_tx::type_id::create("tx");
+  endfunction
+  
+  // Task body - default implementation
   task body();
- start_item(tx);
-
- finish_item(tx);
-         
+    tx = ulss_tx::type_id::create("tx");
+    
+    start_item(tx);
+    // Configure default values if needed
+    finish_item(tx);
   endtask
-
 endclass
